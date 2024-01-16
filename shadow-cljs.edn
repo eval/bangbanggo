@@ -1,0 +1,40 @@
+;; shadow-cljs configuration
+{:source-paths
+ ["src/dev"
+  "src/main"
+  "src/test"]
+
+ :dependencies
+ [[binaryage/devtools "1.0.7"]
+  ;; aero&cheshire for writing manifest
+  [aero/aero "1.1.6"]
+  [cheshire/cheshire "5.12.0"]
+  [nubank/matcher-combinators "3.8.8"]]
+
+ :dev-http {8021 "out/test"}
+
+ :builds
+ {:ci
+  {:target    :karma
+   :output-to "out/ci/ci.js"}
+
+  :test
+  {:target   :browser-test
+   :test-dir "out/test"}
+
+  :ext
+  {:target               :esm
+   #_#_:compiler-options {:source-map true}
+   :output-dir           "ext/js"
+   :runtime              :browser
+   :devtools             {:use-document-host false}
+   :build-hooks          [(bbg.build/manifest)
+                          #_(shadow.cljs.build-report/hook {:output-to "tmp/report.html"})]
+   :modules
+   {:shared {:entries []}
+    :background
+    {:init-fn    bbg.background/init
+     :depends-on #{:shared}}
+    #_#_:popup
+      {:init-fn    demo.popup/init
+       :depends-on #{:shared}}}}}}

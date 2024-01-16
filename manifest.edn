@@ -1,0 +1,9 @@
+{:name                    "BangBangGo"
+ :description             "Bang searches"
+ :version                 "1.0"
+ :manifest_version        3
+ :permissions             ["webNavigation"]
+ :content_security_policy #profile {:default {:extension_pages "default-src"}
+                                    :dev     {:extension_pages "script-src 'self' 'unsafe-eval' 'wasm-unsafe-eval';"}}
+ :omnibox                 {:keyword "!!"}
+ :background              {:service_worker "js/background.js", :type "module"}}
