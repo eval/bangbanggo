@@ -17,7 +17,8 @@
   Note: The reason we can't use nunjucks is that it uses eval which is not allowed with the default mv3 CSP."
   (:require [bbg.topple.tokenizer :as tokenizer]
             [clojure.string :as string]
-            [goog.string :as gstr]))
+            [goog.string :as gstr]
+            [bbg.util :as util]))
 
 (def filters {"uppercase" #'string/upper-case
               "urlencode" #(gstr/urlEncode %)
