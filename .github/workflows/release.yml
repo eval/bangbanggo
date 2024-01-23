@@ -83,7 +83,7 @@ jobs:
         run: yarn ext:release
       - name: Prepare folder to zip
         run: |
-          mv VERSION ext/VERSION
+          cp VERSION ext/VERSION
           mv ext bbg-${{ needs.Config.outputs.version }}
       - name: Zip it
         run: |
