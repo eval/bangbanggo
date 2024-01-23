@@ -28,8 +28,12 @@
 
 (defn write-VERSION
   {:shadow.build/stage :configure}
-  [build-state]
-  (spit (fs/file (project-root) "VERSION") (version))
+  [{:shadow.build/keys [mode] :as build-state}]
+  (let [version-file   (fs/file (project-root) "VERSION")
+        write-version? (or (not (fs/exists? version-file))
+                           (= mode :dev))]
+    (when write-version?
+      (spit (fs/file (project-root) "VERSION") (version))))
   build-state)
 
 (defn manifest

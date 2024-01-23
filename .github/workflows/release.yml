@@ -75,15 +75,15 @@ jobs:
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2
-
+      - name: Write VERSION
+        run: echo "${{ needs.Config.outputs.version }}" > VERSION
       - name: Setup
         run: yarn setup
       - name: Compile
         run: yarn ext:release
-
       - name: Prepare folder to zip
         run: |
-          cp VERSION > ext/VERSION
+          mv VERSION ext/VERSION
           mv ext bbg-${{ needs.Config.outputs.version }}
       - name: Zip it
         run: |
