@@ -27,6 +27,8 @@
     (string/trim (util/git "--git-dir" (str git-dir) "describe" "--tags"))))
 
 (defn write-VERSION
+  "Writes `(version)` to $PROJECT_ROOT/VERSION when absent or when dev-mode.
+  So whenever a VERSION exists and we're releasing, that existing VERSION is leading."
   {:shadow.build/stage :configure}
   [{:shadow.build/keys [mode] :as build-state}]
   (let [version-file   (fs/file (project-root) "VERSION")
