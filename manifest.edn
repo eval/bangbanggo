@@ -1,6 +1,7 @@
 {:name                    "BangBangGo"
  :description             "Bang searches"
- :version                 "1.0"
+ :version                 #manifest-version #include "VERSION"
+ :version_name            #include "VERSION"
  :manifest_version        3
  :permissions             ["webNavigation"]
  :content_security_policy #profile {:default {:extension_pages "default-src"}

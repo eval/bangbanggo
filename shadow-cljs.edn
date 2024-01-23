@@ -9,6 +9,8 @@
   ;; aero&cheshire for writing manifest
   [aero/aero "1.1.6"]
   [cheshire/cheshire "5.12.0"]
+  [babashka/process "0.5.21"]
+  [babashka/fs "0.5.20"]
   [nubank/matcher-combinators "3.8.8"]]
 
  :dev-http {8021 "out/test"}
@@ -28,7 +30,8 @@
    :output-dir           "ext/js"
    :runtime              :browser
    :devtools             {:use-document-host false}
-   :build-hooks          [(bbg.build/manifest)
+   :build-hooks          [(bbg.build/write-VERSION)
+                          (bbg.build/manifest)
                           #_(shadow.cljs.build-report/hook {:output-to "tmp/report.html"})]
    :modules
    {:shared {:entries []}
