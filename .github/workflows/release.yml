@@ -51,7 +51,7 @@ jobs:
   Test:
     uses: eval/bangbanggo/.github/workflows/test.yml@main
   Build:
-    needs: [Config]
+    needs: [Config, Test]
     runs-on: ubuntu-latest
     permissions:
       contents: 'write'
@@ -81,11 +81,12 @@ jobs:
       - name: Compile
         run: yarn ext:release
 
-      - name: Update VERSION
-        run: echo "${{ needs.Config.outputs.version }}" > ext/VERSION
+      - name: Prepare folder to zip
+        run: |
+          cp VERSION > ext/VERSION
+          mv ext bbg-${{ needs.Config.outputs.version }}
       - name: Zip it
         run: |
-          mv ext bbg-${{ needs.Config.outputs.version }}
           zip -r bangbanggo-${{ needs.Config.outputs.version }}.zip bbg-${{ needs.Config.outputs.version }}
           cp bangbanggo-${{ needs.Config.outputs.version }}.zip bangbanggo-latest.zip
       - name: Tagged release
