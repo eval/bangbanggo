@@ -11,8 +11,9 @@
     "scripts": {
       "dev": "yarn shadow-cljs -d nrepl/nrepl:1.1.0 -d cider/cider-nrepl:0.45.0 -d refactor-nrepl/refactor-nrepl:3.9.1 server",
       "setup": "yarn install --frozen-lockfile",
-      "ci:test:compile": "yarn shadow-cljs compile ci",
-      "ci:test:run": "yarn karma start --single-run"
+      "ext:release": "yarn shadow-cljs release ext",
+      "ci:compile": "yarn shadow-cljs compile ci",
+      "ci:run": "yarn karma start --single-run"
   },
   "dependencies": {}
 }

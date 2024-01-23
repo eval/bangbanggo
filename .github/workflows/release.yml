@@ -79,9 +79,7 @@ jobs:
       - name: Setup
         run: yarn setup
       - name: Compile
-        run: yarn ci:test:compile
-      - name: Run tests
-        run: yarn ci:test:run
+        run: yarn ext:release
 
       - name: Update VERSION
         run: echo "${{ needs.Config.outputs.version }}" > ext/VERSION

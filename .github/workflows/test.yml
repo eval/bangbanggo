@@ -26,6 +26,6 @@ jobs:
       - name: Setup
         run: yarn setup
       - name: Compile
-        run: yarn ci:test:compile
+        run: yarn ci:compile
       - name: Run tests
-        run: yarn ci:test:run
+        run: yarn ci:run
