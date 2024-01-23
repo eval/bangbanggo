@@ -1,4 +1,4 @@
-{:name                    "BangBangGo"
+{:name                    #join ["BangBangGo" #profile {:dev " dev"}]
  :description             "Bang searches"
  :version                 #manifest-version #include "VERSION"
  :version_name            #include "VERSION"

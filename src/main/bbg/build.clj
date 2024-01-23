@@ -1,7 +1,8 @@
 (ns bbg.build
   (:require [aero.core :as aero]
             [babashka.fs :as fs]
-            [babashka.process :as p]
+            [bbg.util :as util :refer [when-pred]]
+
             [cheshire.core :as json]
             [clojure.string :as string]))
 
@@ -9,39 +10,21 @@
 ;; as :version in manifest
 (defmethod aero.core/reader 'manifest-version
   [_opts _tag version]
-  (let [version-re #"^v([1-9][0-9]*\.[1-9][0-9]*\.[1-9][0-9]*)"]
+  (let [version-re #"v(\d+\.\d+\.\d+)"]
     (->> version
          name
          string/trim
          (re-find version-re)
          last)))
 
-(defn- traverse-up
-  ([] (traverse-up (fs/cwd)))
-  ([p]
-   (let [p (fs/normalize (fs/absolutize (fs/path p)))]
-     (take-while some? (iterate fs/parent (if (fs/directory? p) p (fs/parent p)))))))
-
-(defn- when-pred
-  ^{:author "Sergey Trofimov"
-    :source "https://ask.clojure.org/index.php/8945/something-like-when-pred-in-the-core"}
-  [pred v]
-  (when (pred v) v))
-
-(defn- file-exists?-> [& fs]
-  (when-pred fs/exists? (apply fs/file fs)))
-
-(defn- git [& args]
-  (some-> (apply p/process "git" args) :out slurp string/trimr))
-
 (defn- project-root []
-  (->> (traverse-up)
-       (filter #(file-exists?-> % "shadow-cljs.edn"))
+  (->> (util/traverse-up)
+       (filter #(util/file-exists?-> % "shadow-cljs.edn"))
        first))
 
 (defn- version []
-  (when-first [git-dir (keep #(file-exists?-> % ".git") (traverse-up))]
-    (string/trim (git "--git-dir" (str git-dir) "describe" "--tags"))))
+  (when-first [git-dir (keep #(util/file-exists?-> % ".git") (util/traverse-up))]
+    (string/trim (util/git "--git-dir" (str git-dir) "describe" "--tags"))))
 
 (defn write-VERSION
   {:shadow.build/stage :configure}
